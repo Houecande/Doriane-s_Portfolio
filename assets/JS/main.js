@@ -52,10 +52,31 @@ window.addEventListener('scroll', () => { backTop.classList.toggle('show', windo
 backTop.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
 
 const form = document.getElementById('contactForm');
-const success = document.getElementById('formSuccess');
+const submitBtn = form.querySelector('button[type="submit"]');
+
+function showToast(message, type = 'success') {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.textContent = message;
+  container.appendChild(toast);
+
+  // Animate in
+  setTimeout(() => toast.classList.add('show'), 10);
+
+  // Hide and remove after 5 seconds
+  setTimeout(() => {
+    toast.classList.remove('show');
+    toast.addEventListener('transitionend', () => toast.remove());
+  }, 5000);
+}
 
 async function handleSubmit(event) {
   event.preventDefault();
+  const originalBtnText = submitBtn.textContent;
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Envoi en cours...';
+
   const data = new FormData(event.target);
   try {
     const response = await fetch(event.target.action, {
@@ -63,14 +84,23 @@ async function handleSubmit(event) {
       body: data,
       headers: { 'Accept': 'application/json' }
     });
+
     if (response.ok) {
-      success.classList.add('show');
+      showToast('✓ Merci ! Votre message a bien été envoyé.');
       form.reset();
     } else {
-      alert("Une erreur s'est produite lors de l'envoi du formulaire.");
+      const responseData = await response.json();
+      if (responseData.hasOwnProperty('errors')) {
+        showToast(responseData.errors.map(e => e.message).join(', '), 'error');
+      } else {
+        showToast("Une erreur s'est produite.", 'error');
+      }
     }
   } catch (error) {
-    alert("Une erreur s'est produite. Veuillez réessayer.");
+    showToast("Erreur réseau. Veuillez réessayer.", 'error');
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = originalBtnText;
   }
 }
 form.addEventListener("submit", handleSubmit);

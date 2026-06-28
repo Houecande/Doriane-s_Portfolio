@@ -209,7 +209,7 @@
       </div>
     </div>
 
-    <form class="contact-form reveal" id="contactForm" action="https://formspree.io/f/VOTRE_ID_FORMSPREE" method="POST">
+    <form class="contact-form reveal" id="contactForm" action="https://formspree.io/f/mdarzbez" method="POST">
       <div class="form-row">
         <div class="field">
           <label for="name">Nom complet</label>
@@ -224,6 +224,7 @@
         <label for="subject">Sujet</label>
         <input type="text" id="subject" name="subject" placeholder="Tenue de comptes, mission, stage...">
       </div>
+      <input type="hidden" name="_subject" value="Portfolio Doriane : {{subject}}">
       <div class="field">
         <label for="message">Message</label>
         <textarea id="message" name="message" placeholder="Décrivez votre besoin en quelques lignes..." required></textarea>
@@ -232,8 +233,6 @@
         <button type="submit" class="pill pill-fill">Envoyer le message</button>
         <span class="form-note">Réponse sous 24 à 48h en général.</span>
       </div>
-      <div class="form-success" id="formSuccess">✓ Merci ! Votre message a été noté, je reviens vers vous très vite.</div>
-      <div class="form-error" id="formError"></div>
     </form>
   </div>
 </section>
@@ -246,6 +245,8 @@
 </footer>
 
 <button class="back-top" id="backTop" aria-label="Remonter en haut">↑</button>
+
+<div id="toastContainer"></div>
 
 <script src="assets/JS/main.js"></script>
 
