@@ -19,15 +19,15 @@ export default async function handler(req, res) {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: process.env.EMAIL_USER, // Votre adresse Gmail
-      pass: process.env.EMAIL_PASS, // Votre mot de passe d'application Gmail
+      user: process.env.EMAIL_USER, 
+      pass: process.env.EMAIL_PASS, 
     },
   });
 
   // 1. Préparer l'e-mail de notification pour VOUS (le propriétaire)
   const mailToOwner = {
-    from: `"Portfolio de Doriane" <${process.env.EMAIL_USER}>`, // L'e-mail est envoyé PAR votre compte Gmail
-    to: process.env.RECIPIENT_EMAIL, // L'e-mail est envoyé AU client
+    from: `"Portfolio de Doriane" <${process.env.EMAIL_USER}>`,
+    to: process.env.RECIPIENT_EMAIL, // L'e-mail est envoyé
     replyTo: email, // Pour que la réponse aille au visiteur
     subject: `Nouveau message de ${name}: ${subject || 'Sans sujet'}`,
     html: `

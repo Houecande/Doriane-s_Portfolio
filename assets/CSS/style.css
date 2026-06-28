@@ -154,11 +154,31 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;padding:2
 }
 
 /* Toasts / Notifications */
-#toastContainer{position:fixed;bottom:20px;right:20px;z-index:100;display:flex;flex-direction:column;gap:10px;}
-.toast{padding:15px 20px;border-radius:16px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow);border:1px solid transparent;display:flex;align-items:center;gap:10px;opacity:0;transform:translateX(20px);transition:opacity .4s ease, transform .4s ease;}
-.toast.show{opacity:1;transform:translateX(0);}
-.toast.success{background:var(--accent-tint);color:var(--accent-deep);border-color:var(--accent);}
-.toast.error{background:var(--gold-tint);color:var(--gold-deep);border-color:var(--gold);}
+#toastContainer {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.toast {
+  padding: 15px 20px;
+  border-radius: 16px;
+  font-weight: 600;
+  font-size: .9rem;
+  box-shadow: var(--shadow);
+  border: 1px solid transparent;
+  opacity: 0;
+  transform: translateX(120%);
+  transition: all 0.4s cubic-bezier(0.215, 0.610, 0.355, 1);
+}
+.toast.show { opacity: 1; transform: translateX(0); }
+.toast.success { background: var(--accent-tint); color: var(--accent-deep); border-color: var(--accent); }
+.toast.error { background: var(--gold-tint); color: var(--gold-deep); border-color: var(--gold); }
 
 footer{padding:22px 0;background:var(--ink);color:var(--cream);border-top:1px solid rgba(255,252,246,0.12);}
 footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
@@ -211,6 +231,21 @@ footer p{margin:0;font-size:.78rem;opacity:.5;font-family:'IBM Plex Mono',monosp
   .blob-back{width:280px;height:320px;}
   .portrait-frame{width:230px;}
   .portrait-frame img{height:300px;}
+
+  /* Responsive Toast */
+  #toastContainer {
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    align-items: center;
+  }
+  .toast {
+    width: 100%;
+    transform: translateY(-150%);
+  }
+  .toast.show {
+    transform: translateY(0);
+  }
 }
 @media (max-width: 420px) {
   .service-grid{grid-template-columns:1fr;}
