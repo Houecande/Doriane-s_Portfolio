@@ -1,17 +1,31 @@
 const burger = document.getElementById('burgerBtn');
 const navLinks = document.querySelector('.nav-links');
+const navLinkItems = document.querySelectorAll('.nav-links a');
+const body = document.body;
+
+function toggleNav() {
+  burger.classList.toggle('open');
+  navLinks.classList.toggle('open');
+  body.classList.toggle('nav-active');
+}
+
 burger.addEventListener('click', () => {
-  const open = navLinks.style.display === 'flex';
-  navLinks.style.display = open ? 'none' : 'flex';
-  navLinks.style.flexDirection = 'column';
-  navLinks.style.position = 'absolute';
-  navLinks.style.top = '64px';
-  navLinks.style.left = '0';
-  navLinks.style.right = '0';
-  navLinks.style.background = 'var(--cream)';
-  navLinks.style.padding = '18px 32px';
-  navLinks.style.borderBottom = '1px solid var(--line)';
-  navLinks.style.gap = '16px';
+  toggleNav();
+});
+
+navLinkItems.forEach(link => {
+  link.addEventListener('click', () => {
+    if (body.classList.contains('nav-active')) {
+      toggleNav();
+    }
+  });
+});
+
+// Close nav when clicking outside of it
+document.addEventListener('click', (e) => {
+  if (body.classList.contains('nav-active') && !e.target.closest('header')) {
+    toggleNav();
+  }
 });
 
 const revealEls = document.querySelectorAll('.reveal');
@@ -44,3 +58,6 @@ form.addEventListener('submit', (e) => {
   success.classList.add('show');
   form.reset();
 });
+
+const yearEl = document.getElementById('year');
+if (yearEl) yearEl.textContent = new Date().getFullYear();
