@@ -220,6 +220,7 @@ footer p{margin:0;font-size:.78rem;opacity:.5;font-family:'IBM Plex Mono',monosp
   .portrait-stage{order:-1;min-height:380px;}
   .mid .wrap{grid-template-columns:1fr; gap: 30px;}
   .mid-photo-card{transform:rotate(0deg);}
+  .avail-badge{right: 4%;} /* Repositionne le badge pour éviter le débordement */
   .about .wrap{grid-template-columns:1fr;gap:32px;}
   .skills .wrap{grid-template-columns:1fr;gap:40px;}
   .contact .wrap{grid-template-columns:1fr;gap:36px;}

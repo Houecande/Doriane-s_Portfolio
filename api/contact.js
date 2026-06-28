@@ -24,10 +24,10 @@ export default async function handler(req, res) {
     },
   });
 
-  // 1. Préparer l'e-mail de notification pour VOUS (le propriétaire)
+  // Préparer l'e-mail de notification pour le propriétaire du site
   const mailToOwner = {
     from: `"Portfolio de Doriane" <${process.env.EMAIL_USER}>`,
-    to: process.env.RECIPIENT_EMAIL, // L'e-mail est envoyé
+    to: process.env.RECIPIENT_EMAIL,
     replyTo: email, // Pour que la réponse aille au visiteur
     subject: `Nouveau message de ${name}: ${subject || 'Sans sujet'}`,
     html: `
@@ -41,26 +41,9 @@ export default async function handler(req, res) {
     `,
   };
 
-  // 2. Préparer l'e-mail de confirmation pour le VISITEUR
-  const mailToVisitor = {
-    from: `"Doriane" <${process.env.EMAIL_USER}>`,
-    to: email,
-    subject: 'Confirmation de réception de votre message',
-    html: `
-      <p>Bonjour ${name},</p>
-      <p>Merci de m'avoir contactée. J'ai bien reçu votre message et je vous répondrai dans les plus brefs délais.</p>
-      <br>
-      <p>Cordialement,</p>
-      <p>Doriane</p>
-      <hr>
-      <p style="font-size:0.9em; color:#666;">Rappel de votre message : <em>"${message.substring(0, 100)}..."</em></p>
-    `,
-  };
-
-  // Envoi des deux e-mails
+  // Envoi de l'e-mail de notification
   try {
     await transporter.sendMail(mailToOwner);
-    await transporter.sendMail(mailToVisitor);
     return res.status(200).json({ message: 'Message envoyé avec succès !' });
   } catch (error) {
     console.error('Erreur lors de l\'envoi de l\'email:', error);
