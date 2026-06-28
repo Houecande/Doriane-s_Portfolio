@@ -73,6 +73,7 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;padding:2
 .mid .wrap{display:grid;grid-template-columns:.7fr 1.3fr;gap:50px;align-items:center;}
 .mid-photo{position:relative;}
 .mid-photo-card{border-radius:28px;overflow:hidden;background:var(--accent);padding:10px;box-shadow:var(--shadow);transform:rotate(-3deg);}
+.mid-photo-card{max-width:380px;margin:0 auto;}
 .mid-photo-card img{border-radius:20px;width:100%;height:280px;object-fit:cover;object-position:top;}
 .mid-text .display-word{font-size:clamp(2.2rem,4vw,3.1rem);color:var(--ink);margin-bottom:10px;}
 .mid-text .display-word span{color:var(--accent-deep);}
@@ -114,7 +115,11 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;padding:2
 
 /* ---------- services ---------- */
 .services{padding:90px 0;background:var(--surface);}
-.service-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+/* Utilisation de auto-fit pour une grille responsive automatique */
+.service-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));
+  gap:20px;}
 .service-card{background:var(--cream);border-radius:22px;padding:30px 22px;transition:transform .3s ease, box-shadow .3s ease;}
 .service-card:hover{transform:translateY(-6px);box-shadow:var(--shadow);}
 .service-card .icon-disc{margin:0 0 16px;background:var(--accent);}
@@ -207,24 +212,25 @@ footer p{margin:0;font-size:.78rem;opacity:.5;font-family:'IBM Plex Mono',monosp
   .burger.open span:nth-child(2){opacity:0;}
   .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
   .burger span{transition:transform .3s ease, opacity .3s ease;}
-
-  .pill-sm{display:none;} /* Hide contact button in nav */
+  
+  /* Cacher le bouton "Me contacter" de la nav sur les écrans moyens et petits */
+  nav.wrap > .pill-sm{display:none;}
 
   .hero .wrap{grid-template-columns:1fr;}
   .portrait-stage{order:-1;min-height:380px;}
-  .mid .wrap{grid-template-columns:1fr;}
+  .mid .wrap{grid-template-columns:1fr; gap: 30px;}
+  .mid-photo-card{transform:rotate(0deg);}
   .about .wrap{grid-template-columns:1fr;gap:32px;}
-  .skills .wrap{grid-template-columns:1fr;gap:36px;}
-  .service-grid{grid-template-columns:1fr 1fr;}
+  .skills .wrap{grid-template-columns:1fr;gap:40px;}
   .contact .wrap{grid-template-columns:1fr;gap:36px;}
   .form-row{grid-template-columns:1fr;}
 }
 @media (max-width:600px){
   .wrap{padding:0 20px;}
   nav.wrap{padding:16px 20px;}
+  .skills .wrap{gap: 20px;}
   .hero{padding:30px 0 60px;}
   .icon-grid{grid-template-columns:1fr;}
-  .service-grid{grid-template-columns:1fr 1fr;}
   footer .wrap{justify-content:center;text-align:center;}
   .back-top{left:16px;bottom:16px;}
   .contact-form{padding:24px;}
@@ -248,5 +254,5 @@ footer p{margin:0;font-size:.78rem;opacity:.5;font-family:'IBM Plex Mono',monosp
   }
 }
 @media (max-width: 420px) {
-  .service-grid{grid-template-columns:1fr;}
+  /* La grille de service est déjà gérée par auto-fit, plus besoin de règle ici */
 }
