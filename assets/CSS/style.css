@@ -147,6 +147,15 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;padding:2
 .form-note{font-size:.76rem;opacity:.5;max-width:230px;line-height:1.5;}
 .form-success{display:none;align-items:center;gap:10px;background:rgba(92,143,79,0.2);border:1px solid var(--accent);color:var(--cream);border-radius:14px;padding:15px 18px;font-size:.88rem;margin-top:14px;}
 .form-success.show{display:flex;}
+.form-error{display:none;background:rgba(227,61,61,0.15);border:1px solid rgba(227,61,61,0.6);color:var(--cream);border-radius:14px;padding:15px 18px;font-size:.88rem;margin-top:14px;}
+.form-error.show{display:block;}
+
+.pill[disabled] {
+  cursor: not-allowed;
+  background: var(--accent-deep);
+  transform: none;
+  box-shadow: none;
+}
 
 footer{padding:22px 0;background:var(--ink);color:var(--cream);border-top:1px solid rgba(255,252,246,0.12);}
 footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
