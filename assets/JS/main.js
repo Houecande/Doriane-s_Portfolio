@@ -53,11 +53,27 @@ backTop.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth
 
 const form = document.getElementById('contactForm');
 const success = document.getElementById('formSuccess');
-form.addEventListener('submit', (e) => {
-  e.preventDefault();
-  success.classList.add('show');
-  form.reset();
-});
+
+async function handleSubmit(event) {
+  event.preventDefault();
+  const data = new FormData(event.target);
+  try {
+    const response = await fetch(event.target.action, {
+      method: form.method,
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    });
+    if (response.ok) {
+      success.classList.add('show');
+      form.reset();
+    } else {
+      alert("Une erreur s'est produite lors de l'envoi du formulaire.");
+    }
+  } catch (error) {
+    alert("Une erreur s'est produite. Veuillez réessayer.");
+  }
+}
+form.addEventListener("submit", handleSubmit);
 
 const yearEl = document.getElementById('year');
 if (yearEl) yearEl.textContent = new Date().getFullYear();
