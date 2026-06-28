@@ -24,24 +24,43 @@ export default async function handler(req, res) {
     },
   });
 
-  // Contenu de l'e-mail que vous recevrez
-  const mailOptions = {
-    from: `"${name}" <${email}>`, // L'expéditeur sera la personne qui a rempli le formulaire
-    to: process.env.EMAIL_USER,   // L'e-mail est envoyé à vous-même
-    subject: `Nouveau message de portfolio: ${subject || 'Sans sujet'}`,
+  // 1. Préparer l'e-mail de notification pour VOUS (le propriétaire)
+  const mailToOwner = {
+    from: `"Portfolio de Doriane" <${process.env.EMAIL_USER}>`, // L'e-mail est envoyé PAR votre compte Gmail
+    to: process.env.RECIPIENT_EMAIL, // L'e-mail est envoyé AU client
+    replyTo: email, // Pour que la réponse aille au visiteur
+    subject: `Nouveau message de ${name}: ${subject || 'Sans sujet'}`,
     html: `
+      <p>Vous avez reçu un nouveau message depuis votre portfolio.</p>
+      <hr>
       <p><strong>Nom :</strong> ${name}</p>
       <p><strong>Email :</strong> ${email}</p>
       <p><strong>Sujet :</strong> ${subject || 'Non spécifié'}</p>
-      <hr>
       <p><strong>Message :</strong></p>
       <p>${message.replace(/\n/g, '<br>')}</p>
     `,
   };
 
-  // Envoi de l'e-mail
+  // 2. Préparer l'e-mail de confirmation pour le VISITEUR
+  const mailToVisitor = {
+    from: `"Doriane" <${process.env.EMAIL_USER}>`,
+    to: email,
+    subject: 'Confirmation de réception de votre message',
+    html: `
+      <p>Bonjour ${name},</p>
+      <p>Merci de m'avoir contactée. J'ai bien reçu votre message et je vous répondrai dans les plus brefs délais.</p>
+      <br>
+      <p>Cordialement,</p>
+      <p>Doriane</p>
+      <hr>
+      <p style="font-size:0.9em; color:#666;">Rappel de votre message : <em>"${message.substring(0, 100)}..."</em></p>
+    `,
+  };
+
+  // Envoi des deux e-mails
   try {
-    await transporter.sendMail(mailOptions);
+    await transporter.sendMail(mailToOwner);
+    await transporter.sendMail(mailToVisitor);
     return res.status(200).json({ message: 'Message envoyé avec succès !' });
   } catch (error) {
     console.error('Erreur lors de l\'envoi de l\'email:', error);
