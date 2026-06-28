@@ -77,24 +77,26 @@ async function handleSubmit(event) {
   submitBtn.disabled = true;
   submitBtn.textContent = 'Envoi en cours...';
 
-  const data = new FormData(event.target);
+  const formData = {
+    name: form.querySelector('#name').value,
+    email: form.querySelector('#email').value,
+    subject: form.querySelector('#subject').value,
+    message: form.querySelector('#message').value,
+  };
+
   try {
-    const response = await fetch(event.target.action, {
-      method: form.method,
-      body: data,
-      headers: { 'Accept': 'application/json' }
+    const response = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
     });
 
     if (response.ok) {
       showToast('✓ Merci ! Votre message a bien été envoyé.');
       form.reset();
     } else {
-      const responseData = await response.json();
-      if (responseData.hasOwnProperty('errors')) {
-        showToast(responseData.errors.map(e => e.message).join(', '), 'error');
-      } else {
-        showToast("Une erreur s'est produite.", 'error');
-      }
+      const errorData = await response.json();
+      showToast(errorData.message || "Une erreur s'est produite.", 'error');
     }
   } catch (error) {
     showToast("Erreur réseau. Veuillez réessayer.", 'error');
